@@ -1,0 +1,14 @@
+version: '3.9'
+
+services:
+  notificator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notificator
+    command: sh -c "crond && tail -f /tmp/out.log"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - default

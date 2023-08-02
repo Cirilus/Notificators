@@ -1,0 +1,2 @@
+* * * * * python3 /app/emailNotificator.py >> /tmp/out.log 2>/tmp/err.log
+* * * * * python3 /app/telegramNotificator.py >> /tmp/out.log 2>/tmp/err.log
