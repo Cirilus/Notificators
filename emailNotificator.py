@@ -1,5 +1,6 @@
 import datetime
 import os
+import sys
 
 from dotenv import load_dotenv
 from Managers import EmailSender, InvalidSenderEmail
@@ -19,14 +20,22 @@ db_host = os.getenv("DB_HOST")
 db_port = os.getenv("DB_PORT")
 db_database = os.getenv("DB_DATABASE")
 
+logger.add("./logs/email_{time}.log", rotation="200 MB")
+
+DEBUG = os.getenv("DEBUG").lower() in ('true', '1', 't')
+
+if not DEBUG:
+    logger.remove()
+    logger.add(sys.stderr, level="INFO")
 
 email_manager = EmailSender(email, email_password)
 db = PostgresClient(db_user, db_password, db_host, db_port, db_database)
 
 
+
 user_contacts = db.take_user_emails(datetime.datetime.today())
 sent_ids = []
-logger.debug(f"take {len(user_contacts)} message for sending")
+logger.debug(f"take {len(user_contacts)} messages for sending to email")
 for user_contact in user_contacts:
     user_id = user_contact[0]
     email = user_contact[1]

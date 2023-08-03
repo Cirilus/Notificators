@@ -5,8 +5,6 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 
-RUN apt-get update && apt-get install -y cron
-
 WORKDIR /app
 
 COPY ./requirements.txt ./
@@ -17,7 +15,9 @@ RUN pip install --no-cache-dir -r ./requirements.txt
 
 COPY ./ ./
 
+RUN
+
 RUN crontab /app/crontab
-RUN touch /tmp/out.log
+RUN touch /var/log/out.log
 
 CMD crond && tail -f /tmp/out.log

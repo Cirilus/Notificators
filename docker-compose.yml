@@ -6,9 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: notificator
-    command: sh -c "crond && tail -f /tmp/out.log"
+    command: sh -c "crond && tail -f /var/log/out.log"
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - ./logs:/app/logs
     networks:
       - default
